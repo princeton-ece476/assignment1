@@ -91,6 +91,8 @@ Once you build the program, you can submit the SLURM jobs for the execution usin
 ./run.sh prog1_mandelbrot_threads mandelbrot 2 "-t 2 -i 0"
 ```
 
+The `run.sh` script generates (or overwrites) `batch.sh` under the same directory, then submits this job to the cluster using `sbatch batch.sh`. The `run.sh`-generated script does not add `--exclusive` though - It is not recommended to use `--exclusive` when debugging, only when preparing for final submission. Once you are happy with your program, add `#SBATCH --exclusive` to `batch.sh` and submit it manually with `sbatch batch.sh` to get the most accurate numbers.
+
 Check the program output under `./sbatch`. For example, `sbatch/SLURM-mandelbrot-C2.log` will be the output for the command above, where `mandelbrot` is the kernel name and `C2` means it's run with 2 cores.
 
 ## Program 1: Parallel Fractal Generation Using Threads (20 points) ##
