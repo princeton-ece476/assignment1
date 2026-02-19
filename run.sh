@@ -43,7 +43,13 @@ echo "#SBATCH --mem=16G" >> batch.sh
 echo "#SBATCH --cpus-per-task=$cores"   >> batch.sh
 echo "#SBATCH --job-name=$binary" >> batch.sh
 echo "#SBATCH --distribution=block:block" >> batch.sh
-echo "#SBATCH --constraint=skylake" >> batch.sh			# using the skylake CPUs
+if [ $cores -gt 32 ]; then
+    echo "Job has more than 32 cores. It will have to run on Ice Lake CPUs."
+    echo "#SBATCH --constraint=ice" >> batch.sh
+else
+    echo "#SBATCH --constraint=skylake" >> batch.sh			# using the skylake CPUs
+    echo "#SBATCH -p class" >> batch.sh
+fi
 
 cmd="./$dir/$kernel $kernel_opt 2> $out_file"
 
